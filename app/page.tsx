@@ -35,7 +35,7 @@ export default function Home() {
             No content at this time😥
           </div>
         )}
-        {data?.map((post: Post) => {
+        {data?.map((post: PostType) => {
           return (
             <Post
               key={post.id}

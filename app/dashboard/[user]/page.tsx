@@ -2,7 +2,6 @@ import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
 import MyPosts from "./MyPosts";
-import EditModal from "./EditModal";
 
 export default async function page() {
   const session = await unstable_getServerSession(authOptions);

@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import { Roboto } from "@next/font/google";
 import QueryWrapper from "./QueryWrapper";
 import Head from "next/head";
+import Providers from "./components/Providers";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -21,13 +22,15 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${roboto.variable} font-roboto bg-black`}>
-        <div className="mx-auto" style={{ maxWidth: "500px" }}>
-          <QueryWrapper>
-            <Nav />
-            {children}
-            <Footer />
-          </QueryWrapper>
-        </div>
+        <Providers>
+          <div className="mx-auto" style={{ maxWidth: "500px" }}>
+            <QueryWrapper>
+              <Nav />
+              {children}
+              <Footer />
+            </QueryWrapper>
+          </div>
+        </Providers>
       </body>
     </html>
   );

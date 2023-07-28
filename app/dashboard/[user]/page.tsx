@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import MyPosts from "./MyPosts";
 
 export default async function page() {
+  // const session = await unstable_getServerSession();
   const session = await unstable_getServerSession(authOptions);
   if (!session) {
     redirect("/api/auth/signin");

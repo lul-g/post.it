@@ -2,13 +2,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../prisma/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]";
+import { useSession } from "next-auth/react";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method == "DELETE") {
-    // get id from current user and post clicked on
+    // const { data: session } = useSession();
+    // const session = await getServerSession(req);
     const session = await getServerSession(req, res, authOptions);
     if (!session) {
       return res

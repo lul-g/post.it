@@ -1,12 +1,14 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import Signin from "./auth/Signin";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../pages/api/auth/[...nextauth]";
 import ProfileImg from "./auth/ProfileImg";
+import { useSession } from "next-auth/react";
 
-async function Nav() {
-  const session = await getServerSession(authOptions);
+function Nav() {
+  const { data: session } = useSession();
+  console.log("from nav:", session);
   return (
     <nav className={`p-5 w-full flex justify-between items-center bg-white`}>
       <Link href={"/"} className="font-bold text-2xl">

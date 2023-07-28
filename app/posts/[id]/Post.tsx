@@ -18,6 +18,7 @@ type Post = {
     userId: string;
   }[];
 };
+
 export default function Post({
   id,
   name,

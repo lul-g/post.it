@@ -4,14 +4,11 @@ import { signOut } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 type User = {
-  name: string;
-  email: string;
-  image: string;
+  name?: string | undefined | null;
+  email?: string | undefined | null;
+  image?: string | undefined | null;
 };
-type UserProps = {
-  user: User;
-};
-function ProfileImg({ user }: UserProps) {
+function ProfileImg({ name, email, image }: User) {
   return (
     <Link
       // href={`${
@@ -20,12 +17,12 @@ function ProfileImg({ user }: UserProps) {
       //     ? "/dashboard/admin"
       //     : `dashboard/${user.name}`
       // }`}
-      href={`/dashboard/${user.name.split(" ")[0]}`}
+      href={`/dashboard/${name!.split(" ")[0]}`}
     >
       <div className="flex items-center gap-2 ">
         <Image
           className="rounded-full"
-          src={user.image}
+          src={image!}
           alt="profile image"
           width={40}
           height={40}

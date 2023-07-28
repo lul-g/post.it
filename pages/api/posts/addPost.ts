@@ -13,9 +13,9 @@ export default async function handler(
       return res.status(401).json({ message: "Please sign to make a post." });
     }
 
-    const title = req.body.title;
+    const title: string = req.body.title!;
     const prismaUser = await prisma.user.findUnique({
-      where: { email: session?.user?.email },
+      where: { email: session?.user?.email! },
     });
 
     if (title.length > 300)
@@ -34,7 +34,7 @@ export default async function handler(
       const result = await prisma.post.create({
         data: {
           title,
-          publisherId: prismaUser?.id,
+          publisherId: prismaUser?.id!,
         },
       });
       res.status(200).json(result);

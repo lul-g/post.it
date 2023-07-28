@@ -7,6 +7,7 @@ import ProfileImg from "./auth/ProfileImg";
 
 async function Nav() {
   const session = await getServerSession(authOptions);
+  console.log(session?.user);
   return (
     <nav className={`p-5 w-full flex justify-between items-center bg-white`}>
       <Link href={"/"} className="font-bold text-2xl">
@@ -17,7 +18,13 @@ async function Nav() {
         <Link href="/about">About </Link>
       </ul>
       {!session && <Signin />}
-      {session && <ProfileImg user={session.user} />}
+      {session && (
+        <ProfileImg
+          image={session?.user!.image!}
+          name={session?.user!.name!}
+          email={session?.user!.email!}
+        />
+      )}
     </nav>
   );
 }

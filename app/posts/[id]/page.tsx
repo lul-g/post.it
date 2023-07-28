@@ -46,7 +46,15 @@ export default function page(url: URL) {
         <>
           <h1 className="text-center font-bold text-2xl mt-8 ">All comments</h1>
           {data?.comments!.map((comment) => {
-            return <Comment key={comment.id} comment={comment} />;
+            return (
+              <Comment
+                key={comment.id}
+                id={comment?.id}
+                message={comment?.message}
+                createdAt={comment?.createdAt}
+                user={comment?.user!}
+              />
+            );
           })}
         </>
       ) : (
@@ -58,32 +66,34 @@ export default function page(url: URL) {
   );
 }
 
-interface Data {
+interface commentData {
+  id: string;
   message: string;
-  createdAt: Date;
+  createdAt: string;
   user: User;
 }
-interface User {
+type User = {
   id: string;
+  email: string;
   image: string;
   name: string;
-}
-function Comment({ comment }: { comment: Data }) {
+};
+function Comment({ id, message, createdAt, user }: commentData) {
   return (
     <div className="p-6 bg-white rounded-md w-[95%] my-2 shadow-[0_0_.1rem_0_black]">
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center mb-2">
         <div className="flex gap-x-2 items-center">
           <Image
-            src={comment.user?.image!}
+            src={user?.image!}
             width={30}
             height={30}
             alt="profile image of post owner"
             className="rounded-full"
           />
-          <h1 className="text-black font-bold">{comment.user?.name!}</h1>
+          <h1 className="text-black font-bold">{user?.name!}</h1>
         </div>
         <p className="text-gray-600 font-semibold font-sans">
-          {new Date(comment?.createdAt!).toLocaleDateString("en-us", {
+          {new Date(createdAt!).toLocaleDateString("en-us", {
             weekday: "short",
             year: "numeric",
             month: "short",
@@ -91,7 +101,7 @@ function Comment({ comment }: { comment: Data }) {
           })}
         </p>
       </div>
-      <span className="my-4">{comment?.message!}</span>
+      <span>{message}</span>
     </div>
   );
 }

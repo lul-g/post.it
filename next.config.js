@@ -19,6 +19,28 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
+  // async headers() {
+  //   return [
+  //     {
+  //       source: "/app/page.tsx",
+  //       headers: [
+  //         {
+  //           key: "Cache-control",
+  //           value: "no-store",
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       source: "/app/posts/[id]",
+  //       headers: [
+  //         {
+  //           key: "Cache-control",
+  //           value: "no-store",
+  //         },
+  //       ],
+  //     },
+  //   ];
+  // },
 };
 
 module.exports = nextConfig;

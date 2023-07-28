@@ -6,7 +6,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method == "DELETE") {
-    console.log(req.body);
     try {
       const data = await prisma.post.delete({
         where: {

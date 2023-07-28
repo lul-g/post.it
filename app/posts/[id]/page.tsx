@@ -1,11 +1,13 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { PostType } from "@/app/types/Posts";
 import Spinner from "@/app/components/Spinner";
 import Post from "./Post";
 import AddComment from "./AddComment";
 import Image from "next/image";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 const fetchDetail = async (id: string) => {
   const response = await axios.get(`/api/posts/getPost?id=${id}`);
@@ -21,6 +23,11 @@ export default function page(url: URL) {
     queryFn: () => fetchDetail(url.params.id),
     queryKey: ["postDetail"],
   });
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.invalidateQueries();
+  });
+
   if (error) return <div>some error</div>;
   if (isLoading)
     return (
@@ -40,6 +47,8 @@ export default function page(url: URL) {
         comments={data?.comments!}
         createdAt={data?.createdAt!}
         updatedAt={data?.updatedAt!}
+        fires={data?.fires!}
+        poops={data?.poops!}
       />
       <AddComment postId={data?.id!} />
       {data?.comments?.length ? (

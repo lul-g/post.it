@@ -4,6 +4,8 @@ export type PostType = {
   publisherId: string;
   createdAt: Date;
   updatedAt: Date;
+  poops: [];
+  fires: [];
   user: {
     name: string;
     id: string;

@@ -2,10 +2,11 @@
 import Image from "next/image";
 import AddPost from "./components/AddPost";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Spinner from "./components/Spinner";
 import Post from "./components/Post";
 import { PostType } from "./types/Posts";
+import { useEffect } from "react";
 
 const allPosts = async () => {
   const response = await axios.get("/api/posts/getPosts");
@@ -16,6 +17,7 @@ export default function Home() {
   const { data, error, isLoading } = useQuery<PostType[]>({
     queryFn: allPosts,
     queryKey: ["posts"],
+    // staleTime: 10,
   });
   if (error) return "Some error occured when getting posts";
   if (isLoading)
@@ -44,6 +46,8 @@ export default function Home() {
               avatar={post.user.image}
               title={post.title}
               comments={post.comments}
+              fires={post.fires}
+              poops={post.poops}
             />
           );
         })}

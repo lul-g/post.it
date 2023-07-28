@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Spinner from "@/app/components/Spinner";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Post = {
   id: string;
@@ -10,6 +14,16 @@ type Post = {
   avatar: string;
   createdAt: Date;
   updatedAt: Date;
+  fires: {
+    id: string;
+    postId: string;
+    userId: string;
+  }[];
+  poops: {
+    id: string;
+    postId: string;
+    userId: string;
+  }[];
   comments?: {
     id: string;
     message: string;
@@ -24,6 +38,8 @@ export default function Post({
   name,
   title,
   comments,
+  fires,
+  poops,
   avatar,
   createdAt,
   updatedAt,
@@ -53,8 +69,18 @@ export default function Post({
       <h1 className="text-black my-6 text-sm">{title}</h1>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <RxnButton emoji={"🔥"} emojiNum={0} />
-          <RxnButton emoji={"💩"} emojiNum={0} />
+          <RxnButton
+            emoji={"🔥"}
+            emojiNum={fires.length}
+            emojiType="fire"
+            postId={id}
+          />
+          <RxnButton
+            emoji={"💩"}
+            emojiNum={poops.length}
+            emojiType="poop"
+            postId={id}
+          />
         </div>
       </div>
       <p className="text-gray-500 font-semibold font-mono italic">
@@ -69,16 +95,72 @@ export default function Post({
     </div>
   );
 }
+
 type buttonProps = {
   emoji: string;
+  emojiType: string;
   emojiNum: number;
+  postId: string;
 };
-const RxnButton = ({ emoji, emojiNum }: buttonProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+
+const RxnButton = ({ emoji, emojiType, emojiNum, postId }: buttonProps) => {
+  const [btnIsLoading, setBtnIsLoading] = useState(false);
+
+  const [clicked, setClicked] = useState(
+    JSON.parse(localStorage.getItem(`${emojiType}_${postId}`)!) || false
+  );
+
+  const queryClient = useQueryClient();
+
+  function addRxn() {
+    setBtnIsLoading(true);
+    mutate(emojiType == "fire" ? "fire" : "poop");
+  }
+  const { mutate } = useMutation(
+    async (rxn: string) =>
+      !clicked
+        ? await axios.post("/api/posts/reactions/addReaction", { rxn, postId })
+        : await axios.delete(`/api/posts/reactions/deleteReaction`, {
+            data: {
+              rxn,
+              postId,
+            },
+          }),
+
+    {
+      onError: (error) => {
+        if (error instanceof AxiosError)
+          toast.error(error?.response?.data.message, {
+            icon: error?.response?.data.icon,
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+          });
+        setBtnIsLoading(false);
+      },
+      onSuccess: (success) => {
+        queryClient.invalidateQueries();
+        setBtnIsLoading(false);
+        setClicked(!clicked);
+        localStorage.setItem(
+          `${emojiType}_${postId}`,
+          JSON.stringify(!clicked)
+        );
+      },
+    }
+  );
+
   return (
-    <button className="p-2 bg-slate-200 hover:bg-slate-300 rounded-md flex items-center gap-2">
+    <button
+      onClick={(e) => {
+        e.preventDefault();
+        addRxn();
+      }}
+      className="p-2 bg-slate-200 hover:bg-slate-300 rounded-md flex items-center gap-2"
+    >
       {emoji}{" "}
-      {isLoading ? (
+      {btnIsLoading ? (
         <Spinner className={"text-slate-600"} />
       ) : (
         <span className="font-bold">{emojiNum}</span>

@@ -9,8 +9,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method == "DELETE") {
-    // const { data: session } = useSession();
-    // const session = await getServerSession(req);
+    // @ts-ignore
     const session = await getServerSession(req, res, authOptions);
     if (!session) {
       return res

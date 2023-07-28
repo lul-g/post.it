@@ -1,12 +1,11 @@
+"use client";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { redirect } from "next/navigation";
 import MyPosts from "./MyPosts";
 import { useSession } from "next-auth/react";
 
-export default async function page() {
-  // const session = await unstable_getServerSession();
-  // const session = await unstable_getServerSession(authOptions);
+export default function page() {
   const { data: session } = useSession();
 
   if (!session) {

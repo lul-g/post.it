@@ -8,9 +8,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method == "POST") {
-    // const { data: session } = useSession();
+    // @ts-ignore
     const session = await getServerSession(req, res, authOptions);
-    // const session = await getServerSession(req);
     if (!session) {
       return res
         .status(401)

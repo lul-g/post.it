@@ -8,9 +8,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method == "GET") {
-    // const { data: session } = useSession();
+    // @ts-ignore
     const session = await getServerSession(req, res, authOptions);
-    // const session = await getServerSession(req);
     try {
       const data = await prisma.user.findUnique({
         where: {

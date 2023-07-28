@@ -8,7 +8,6 @@ import { useSession } from "next-auth/react";
 
 function Nav() {
   const { data: session } = useSession();
-  console.log("from nav:", session);
   return (
     <nav className={`p-5 w-full flex justify-between items-center bg-white`}>
       <Link href={"/"} className="font-bold text-2xl">

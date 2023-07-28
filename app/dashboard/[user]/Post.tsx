@@ -26,7 +26,6 @@ function Post({ postId, userId, img, name, title }: PostType) {
       await axios.delete(`/api/posts/deletePost`, { data: id }),
     {
       onError: (err) => {
-        console.log("delete err");
         toast.success("Could not delete post");
       },
       onSuccess: (data) => {

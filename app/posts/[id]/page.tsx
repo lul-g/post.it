@@ -36,7 +36,6 @@ export default function page(url: URL) {
         <span className="text-black font-bold">Loading...</span>
       </div>
     );
-  console.log(data);
   return (
     <div className="flex min-h-screen flex-col items-center justify-start py-5 bg-slate-100 relative ">
       <Post

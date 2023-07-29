@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 
 const QueryWrapper = ({ children }: Props) => (
   <QueryClientProvider client={queryClient}>
-    <Toaster position="top-right" />
+    <Toaster position="top-right" toastOptions={{ duration: 2000 }} />
     <NextTopLoader color="#ff426b" height={3} />
     {children}
   </QueryClientProvider>

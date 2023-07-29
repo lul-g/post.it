@@ -10,14 +10,14 @@ type User = {
 };
 function ProfileImg({ name, email, image }: User) {
   return (
-    <Link
-      // href={`${
-      //   user.email == "lulsegedgirma10@gmail.com" ||
-      //   user.email == "lulsegedwork@gmail.com"
-      //     ? "/dashboard/admin"
-      //     : `dashboard/${user.name}`
-      // }`}
-      href={`/dashboard/${name!.split(" ")[0]}`}
+    <div
+    // href={`${
+    //   user.email == "lulsegedgirma10@gmail.com" ||
+    //   user.email == "lulsegedwork@gmail.com"
+    //     ? "/dashboard/admin"
+    //     : `dashboard/${user.name}`
+    // }`}
+    // href={`/dashboard/${name!.split(" ")[0]}`}
     >
       <div className="flex items-center gap-2">
         <Image
@@ -38,7 +38,7 @@ function ProfileImg({ name, email, image }: User) {
           Sign Out
         </button>
       </div>
-    </Link>
+    </div>
   );
 }
 

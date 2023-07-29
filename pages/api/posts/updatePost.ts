@@ -14,7 +14,7 @@ export default async function handler(
     if (!session) {
       return res
         .status(401)
-        .json({ message: "Please sign to make to a post.", icon: "❌" });
+        .json({ message: "Please sign to update a post.", icon: "❌" });
     }
 
     const postId = req.body.data.postId;

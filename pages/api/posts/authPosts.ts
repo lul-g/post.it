@@ -18,19 +18,18 @@ export default async function handler(
     }
 
     try {
-      const result = await prisma.user.findUnique({
+      const result = await prisma.post.findMany({
         where: {
-          email: session?.user?.email!,
+          user: {
+            email: session?.user?.email!,
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
         },
         include: {
-          posts: {
-            orderBy: {
-              createdAt: "desc",
-            },
-            include: {
-              comments: true,
-            },
-          },
+          comments: true,
+          user: true,
         },
       });
       res.status(200).json(result);

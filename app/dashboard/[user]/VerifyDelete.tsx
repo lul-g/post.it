@@ -6,7 +6,7 @@ type Prop = {
 };
 function VerifyDelete({ setter, del }: Prop) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30 z-30">
+    <div className="fixed inset-0 bg-black bg-opacity-30 z-50">
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white rounded-md w-[20rem] my-2 shadow-[0_0_.1rem_0_black] z-30">
         <button
           onClick={() => {

@@ -19,7 +19,7 @@ function ProfileImg({ name, email, image }: User) {
       // }`}
       href={`/dashboard/${name!.split(" ")[0]}`}
     >
-      <div className="flex items-center gap-2 ">
+      <div className="flex items-center gap-2">
         <Image
           className="rounded-full"
           src={image!}

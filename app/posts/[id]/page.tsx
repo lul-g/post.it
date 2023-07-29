@@ -8,6 +8,7 @@ import AddComment from "./AddComment";
 import Image from "next/image";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 const fetchDetail = async (id: string) => {
   const response = await axios.get(`/api/posts/getPost?id=${id}`);
@@ -86,9 +87,29 @@ type User = {
   image: string;
   name: string;
 };
+
+const fadeIn = {
+  initial: {
+    opacity: 0,
+    y: 50,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.1,
+    },
+  },
+};
 function Comment({ id, message, createdAt, user }: commentData) {
   return (
-    <div className="p-6 bg-white rounded-md w-[95%] my-2 shadow-[0_0_.1rem_0_black]">
+    <motion.div
+      variants={fadeIn}
+      initial="initial"
+      whileInView="animate"
+      viewport={{ once: true }}
+      className="p-6 bg-white rounded-md w-[95%] my-2 shadow-[0_0_.1rem_0_black]"
+    >
       <div className="flex justify-between items-center mb-2">
         <div className="flex gap-x-2 items-center">
           <Image
@@ -110,6 +131,6 @@ function Comment({ id, message, createdAt, user }: commentData) {
         </p>
       </div>
       <span>{message}</span>
-    </div>
+    </motion.div>
   );
 }

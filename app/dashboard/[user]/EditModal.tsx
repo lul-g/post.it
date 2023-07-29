@@ -54,10 +54,11 @@ function EditModal({ setter, img, name, title, userId, postId }: EditProps) {
   );
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-30">
+    <div className="fixed inset-0 bg-black bg-opacity-30 z-40">
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-6 bg-white rounded-md w-[28rem] my-2 shadow-[0_0_.1rem_0_black] z-30">
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             setter(false);
           }}
           className="absolute right-2 top-2 bg-black text-white font-bold py-1 px-3 rounded-md hover:bg-opacity-80"
@@ -93,7 +94,7 @@ function EditModal({ setter, img, name, title, userId, postId }: EditProps) {
           <div className="flex items-center justify-end gap-3">
             <button
               onClick={(e) => {
-                e.stopPropagation();
+                e.preventDefault();
                 updatePost();
                 setter(false);
               }}
@@ -103,7 +104,7 @@ function EditModal({ setter, img, name, title, userId, postId }: EditProps) {
             </button>
             <button
               onClick={(e) => {
-                e.stopPropagation();
+                e.preventDefault();
                 setter(false);
               }}
               className="font-bold py-1 px-3 rounded-md bg-gray-100 text-black border-2 hover:bg-gray-200  transition-all ease-out "

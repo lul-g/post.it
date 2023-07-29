@@ -28,7 +28,7 @@ export default async function handler(
 
     if (!title.trim().length)
       return res.status(403).json({
-        message: "No blanks!",
+        message: "Nope, No blanks!",
         icon: "😑",
       });
 

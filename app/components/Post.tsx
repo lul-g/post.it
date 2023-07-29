@@ -3,9 +3,10 @@ import Image from "next/image";
 import Spinner from "../components/Spinner";
 import Link from "next/link";
 import axios, { AxiosError } from "axios";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import { motion } from "framer-motion";
 
 type Post = {
   id: string;
@@ -30,6 +31,20 @@ type Post = {
     userId: string;
   }[];
 };
+
+const fadeIn = {
+  initial: {
+    opacity: 0,
+    y: 50,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.1,
+    },
+  },
+};
 export default function Post({
   id,
   name,
@@ -40,41 +55,52 @@ export default function Post({
   poops,
 }: Post) {
   return (
-    <Link
-      href={`/posts/${id}`}
-      className="p-6 bg-white rounded-md w-[95%] my-2 shadow-[0_0_.1rem_0_black]"
+    <motion.div
+      className="bg-white rounded-md w-[95%] my-2 shadow-[0_0_.1rem_0_black] p-6 relative"
+      variants={fadeIn}
+      initial="initial"
+      whileInView="animate"
+      viewport={{ once: true }}
     >
-      <div className="flex gap-2 items-center">
-        <Image
-          src={avatar}
-          width={30}
-          height={30}
-          alt="profile image of post owner"
-          className="rounded-full"
-        />
-        <h1 className="text-black font-bold">{name}</h1>
-      </div>
-      <h1 className="text-black mt-4 mb-2 text-sm">{title}</h1>
-      <div className="flex items-center justify-between  mt-6">
-        <div className="flex items-center gap-3">
-          <RxnButton
-            emoji={"🔥"}
-            emojiNum={fires.length}
-            postId={id}
-            emojiType={"fire"}
+      <Link
+        href={`/posts/${id}`}
+        className="absolute top-6 right-6 bg-slate-200 rounded-md p-2 font-bold hover:bg-slate-300 z-50"
+      >
+        📌 Details
+      </Link>
+      <div>
+        <div className="flex gap-2 items-center">
+          <Image
+            src={avatar}
+            width={30}
+            height={30}
+            alt="profile image of post owner"
+            className="rounded-full"
           />
-          <RxnButton
-            emoji={"💩"}
-            emojiNum={poops.length}
-            postId={id}
-            emojiType={"poop"}
-          />
+          <h1 className="text-black font-bold">{name}</h1>
         </div>
-        <div>
-          <CommentButton commentsLength={comments!.length} />
+        <h1 className="text-black mt-4 mb-2 text-sm">{title}</h1>
+        <div className="flex items-center justify-between  mt-6">
+          <div className="flex items-center gap-3">
+            <RxnButton
+              emoji={"🔥"}
+              emojiNum={fires.length}
+              postId={id}
+              emojiType={"fire"}
+            />
+            <RxnButton
+              emoji={"💩"}
+              emojiNum={poops.length}
+              postId={id}
+              emojiType={"poop"}
+            />
+          </div>
+          <div>
+            <CommentButton commentsLength={comments!.length} id={id} />
+          </div>
         </div>
       </div>
-    </Link>
+    </motion.div>
   );
 }
 
@@ -137,7 +163,6 @@ const RxnButton = ({ emoji, emojiType, emojiNum, postId }: buttonProps) => {
   return (
     <button
       onClick={(e) => {
-        e.preventDefault();
         addRxn();
       }}
       className="p-2 bg-slate-200 hover:bg-slate-300 rounded-md flex items-center gap-2"
@@ -152,14 +177,23 @@ const RxnButton = ({ emoji, emojiType, emojiNum, postId }: buttonProps) => {
   );
 };
 
-const CommentButton = ({ commentsLength }: { commentsLength: number }) => {
+const CommentButton = ({
+  commentsLength,
+  id,
+}: {
+  commentsLength: number;
+  id: string;
+}) => {
   return (
-    <button className="p-2 bg-slate-200 hover:bg-slate-300 rounded-md flex items-center gap-2">
+    <Link
+      href={`/posts/${id}`}
+      className="p-2 bg-slate-200 hover:bg-slate-300 rounded-md flex items-center gap-2"
+    >
       {commentsLength ? (
         <span className="font-bold">💬 {commentsLength}</span>
       ) : (
         <span className="font-bold">Add Comment</span>
       )}
-    </button>
+    </Link>
   );
 };

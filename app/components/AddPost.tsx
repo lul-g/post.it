@@ -8,7 +8,10 @@ import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import Spinner from "./Spinner";
 
-export default function CreatePost() {
+type addPostProps = {
+  disabled: boolean;
+};
+export default function CreatePost({ disabled }: addPostProps) {
   const [title, setTitle] = useState("");
   const [btnIsLoading, setBtnIsLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -54,6 +57,7 @@ export default function CreatePost() {
       action=""
     >
       <Textarea
+        disabled={disabled}
         value={title}
         name="title"
         placeholder="What's on your mind"
@@ -65,7 +69,7 @@ export default function CreatePost() {
           {title.length}/300
         </p>
         {!btnIsLoading && (
-          <Button className="" type="submit">
+          <Button className="" type="submit" disabled={disabled}>
             Post It <span className="pl-1">🚀</span>
           </Button>
         )}

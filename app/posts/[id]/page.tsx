@@ -10,6 +10,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 
+let Filter = require("bad-words"),
+  filter = new Filter();
+filter.addWords("nigggggggaaaaaaaaaassssss", "gay");
+
 const fetchDetail = async (id: string) => {
   const response = await axios.get(`/api/posts/getPost?id=${id}`);
   return response.data;
@@ -59,7 +63,7 @@ export default function page(url: URL) {
               <Comment
                 key={comment.id}
                 id={comment?.id}
-                message={comment?.message}
+                message={filter.clean(comment?.message)}
                 createdAt={comment?.createdAt}
                 user={comment?.user!}
               />

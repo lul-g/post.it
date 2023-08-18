@@ -8,6 +8,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import { motion } from "framer-motion";
 
+let Filter = require("bad-words"),
+  filter = new Filter();
+filter.addWords("nigggggggaaaaaaaaaassssss", "gay");
+
 type Post = {
   id: string;
   name: string;
@@ -79,7 +83,7 @@ export default function Post({
           />
           <h1 className="text-black font-bold">{name}</h1>
         </div>
-        <h1 className="text-black mt-4 mb-2 text-sm">{title}</h1>
+        <h1 className="text-black mt-4 mb-2 text-sm">{filter.clean(title)}</h1>
         <div className="flex items-center justify-between  mt-6">
           <div className="flex items-center gap-3">
             <RxnButton

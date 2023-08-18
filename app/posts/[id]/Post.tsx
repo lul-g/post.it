@@ -7,6 +7,9 @@ import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { useQueryClient } from "@tanstack/react-query";
 
+let Filter = require("bad-words"),
+  filter = new Filter();
+filter.addWords("nigggggggaaaaaaaaaassssss", "gay");
 type Post = {
   id: string;
   name: string;
@@ -66,7 +69,7 @@ export default function Post({
           })}
         </p>
       </div>
-      <h1 className="text-black my-6 text-sm">{title}</h1>
+      <h1 className="text-black my-6 text-sm">{filter.clean(title)}</h1>
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <RxnButton
